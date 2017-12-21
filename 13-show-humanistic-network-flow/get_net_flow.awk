@@ -23,6 +23,6 @@ NR > 2 {
 
 END {
     for (i in num) {
-        printf("%s %s %d\n", i, convert(num[i]))
+        printf("%s %s\n", i, convert(num[i]))
     }
 }
