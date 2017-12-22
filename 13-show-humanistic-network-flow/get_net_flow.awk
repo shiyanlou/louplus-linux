@@ -4,7 +4,7 @@
 function convert(count) {
     gb = 1024 * 1024 * 1024
     mb = 1024 * 1024
-    kb = 2014 * 1024
+    kb = 1024
     if (count >= gb) {
         result = count / gb
         return int(result)"GB"
