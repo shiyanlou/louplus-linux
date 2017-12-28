@@ -1,0 +1,1 @@
+Xvnc: ALL : spawn (/bin/echo %a from %h attempted to access %d >> /var/log/vncdeny.log) : deny
