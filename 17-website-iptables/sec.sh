@@ -7,7 +7,7 @@ iptables -Z
 
 # 默认规则
 iptables -P   INPUT DROP
-iptables -P  OUTPUT DROP
+# iptables -P  OUTPUT DROP
 
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
