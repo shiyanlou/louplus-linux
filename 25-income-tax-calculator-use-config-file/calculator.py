@@ -35,12 +35,12 @@ class Args(object):
     # 内部函数，用来提取参数 -c/-d/-o 后面的值
     def _value_after_option(self, option):
         try:
-        	# 首先获得参数 -c/-d/-o 所在位置在列表 sys.args 中的索引值
+            # 首先获得参数 -c/-d/-o 所在位置在列表 sys.args 中的索引值
             index = self.args.index(option)
             # 获取 -c/-d/-o 所在位置的下一个位置的字符串就是对应的值
             return self.args[index + 1]
         except (ValueError, IndexError):
-        	# 如果获取出错，则打印错误信息并退出
+            # 如果获取出错，则打印错误信息并退出
             print('Parameter Error')
             exit()
 
@@ -73,21 +73,21 @@ class Config(object):
 
     # 内部函数，用来读取配置文件中的配置项
     def _read_config(self):
-    	# 从 args 对象中获得配置文件路径
+        # 从 args 对象中获得配置文件路径
         config_path = args.config_path
         # 初始化存储配置项和值的字典
         config = {}
         # 打开配置文件读取数据
         with open(config_path) as f:
-        	# 读取每一行数据
+            # 读取每一行数据
             for line in f.readlines():
-            	# 使用 = 分割每一行的内容，注意需要去掉每行两边的空格
+                # 使用 = 分割每一行的内容，注意需要去掉每行两边的空格
                 key, value = line.strip().split(' = ')
                 try:
-                	# 将配置项和对应的值存入到字典中，注意需要去除字符串两边的空格
+                    # 将配置项和对应的值存入到字典中，注意需要去除字符串两边的空格
                     config[key.strip()] = float(value.strip())
                 except ValueError:
-                	# 如果配置值不能转成 float，则报错退出
+                    # 如果配置值不能转成 float，则报错退出
                     print('Parameter Error')
                     exit()
         # 返回存储配置项和值的字典
@@ -98,7 +98,7 @@ class Config(object):
         try:
             return self.config[key]
         except KeyError:
-        	# 如果配置项不存在则打印错误并退出
+            # 如果配置项不存在则打印错误并退出
             print('Config Error')
             exit()
 
@@ -138,21 +138,21 @@ class UserData(object):
 
     # 内部函数，用来读取用户工资文件
     def _read_users_data(self):
-    	# 从 args 中获取用户工资文件路径
+        # 从 args 中获取用户工资文件路径
         userdata_path = args.userdata_path
         # 初始化存储的列表
         userdata = []
         # 打开用户工资文件
         with open(userdata_path) as f:
-        	# 读取用户工资文件中的每一行内容类似：101,3500
+            # 读取用户工资文件中的每一行内容类似：101,3500
             for line in f.readlines():
-            	# 使用逗号分割每一行的字符串，得到工号和工资
+                # 使用逗号分割每一行的字符串，得到工号和工资
                 employee_id, income_string = line.strip().split(',')
                 try:
-                	# 将工资字符串转为整数
+                    # 将工资字符串转为整数
                     income = int(income_string)
                 except ValueError:
-                	# 如果工资无法转为整数则报错退出
+                    # 如果工资无法转为整数则报错退出
                     print('Parameter Error')
                     exit()
                 # 将每一行的数据转成二元组后添加到 userdata 列表
@@ -176,22 +176,22 @@ class IncomeTaxCalculator(object):
     # 计算需要缴纳的社保金额，传入的参数为工资金额
     @staticmethod
     def calc_social_insurance_money(income):
-    	# 如果工资小于社保基数下限，则用社保基数下限计算社保
+        # 如果工资小于社保基数下限，则用社保基数下限计算社保
         if income < config.social_insurance_baseline_low:
             return config.social_insurance_baseline_low * \
                 config.social_insurance_total_rate
-    	# 如果工资大于社保基数上限，则用社保基数上限计算社保
+        # 如果工资大于社保基数上限，则用社保基数上限计算社保
         if income > config.social_insurance_baseline_high:
             return config.social_insurance_baseline_high * \
                 config.social_insurance_total_rate
-    	# 其他情况，则用工资计算社保
+        # 其他情况，则用工资计算社保
         return income * config.social_insurance_total_rate
 
     # 类方法：不需要实例化类也能够调用的方法，需要传入代表类的 cls
     # 计算个税和税后工资，传入的参数为工资金额
     @classmethod
     def calc_income_tax_and_remain(cls, income):
-    	# 计算社保金额
+        # 计算社保金额
         social_insurance_money = cls.calc_social_insurance_money(income)
         # 获得应纳税所得额
         real_income = income - social_insurance_money
@@ -201,9 +201,9 @@ class IncomeTaxCalculator(object):
             return '0.00', '{:.2f}'.format(real_income)
         # 使用个税计算表计算个税
         for item in INCOME_TAX_QUICK_LOOKUP_TABLE:
-        	# 循环遍历个税计算表，直到找到应纳税所得额所在的区间
+            # 循环遍历个税计算表，直到找到应纳税所得额所在的区间
             if taxable_part > item.start_point:
-            	# 使用公式计算个税
+                # 使用公式计算个税
                 tax = taxable_part * item.tax_rate - item.quick_subtractor
                 # 返回个税及税后工资，注意需要保留两位小数
                 return '{:.2f}'.format(tax), '{:.2f}'.format(real_income - tax)
@@ -215,7 +215,7 @@ class IncomeTaxCalculator(object):
         result = []
         # 循环获取 userdata 中的用户工号和税前工资
         for employee_id, income in self.userdata:
-        	# 初始化返回的数据结果，包含工号和税前工资
+            # 初始化返回的数据结果，包含工号和税前工资
             data = [employee_id, income]
             # 计算需要缴纳的社保，注意需要保留两位小数
             social_insurance_money = '{:.2f}'.format(self.calc_social_insurance_money(income))
@@ -229,18 +229,18 @@ class IncomeTaxCalculator(object):
 
     # 导出到工资数据文件，传入的参数用来指定导出的文件类型，此处用来未来扩展
     def export(self, file_type='csv'):
-    	# 计算并获得所有用户的工资数据
+        # 计算并获得所有用户的工资数据
         result = self.calc_for_all_userdata()
         # 打开导出的文件，并写入
         with open(args.export_path, 'w', newline='') as f:
-        	# 使用 csv 模块创建 writer 对象
+            # 使用 csv 模块创建 writer 对象
             writer = csv.writer(f)
             # 向文件中以 csv 格式写入列表
             writer.writerows(result)
 
 
 if __name__ == '__main__':
-	# 创建 UserData 对象并使用该对象初始化工资计算器
+    # 创建 UserData 对象并使用该对象初始化工资计算器
     calculator = IncomeTaxCalculator(UserData())
     # 调用工资计算器对象 calculator 中的 export 方法导出结果数据到文件
     calculator.export()
