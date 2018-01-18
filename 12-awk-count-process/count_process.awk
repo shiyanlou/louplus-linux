@@ -6,6 +6,6 @@
 
 END {
     for (i in num) {
-        printf("%d %s\n", array[i], i) | "sort -n -k1"
+        printf("%d %s\n", num[i], i) | "sort -n -k1"
     }
 }

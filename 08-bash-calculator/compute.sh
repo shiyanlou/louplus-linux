@@ -14,7 +14,7 @@ fi
 
 # check operator
 if ! [[ $1 == "*" || $1 == "/" || $1 == "+" || $1 == "-" ]]; then
-	echo "expect operator * / + - but receive $!" && exit 1
+	echo "expect operator * / + - but receive $1" && exit 1
 fi
 
 checkNumber $2
