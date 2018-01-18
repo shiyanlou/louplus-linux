@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if ps -ef | grep vnc && netstat -lunat |grep 5901;then
+    echo "is OK"
+else
+    echo "is Close"
+    exit 2
+fi
