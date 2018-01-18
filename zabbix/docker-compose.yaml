@@ -1,0 +1,63 @@
+version: '2'
+
+services:
+  mysql-server:
+    image: mysql:5.7
+    command: [mysqld, --character-set-server=utf8, --collation-server=utf8_bin]
+    container_name: mysql-server
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=zabbix
+      - MYSQL_USER=zabbix
+      - MYSQL_PASSWORD=zabbix
+    ports:
+      - "3306:3306"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/mysql:/var/lib/mysql
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:ubuntu-3.4-latest
+    container_name: zabbix-server
+    ports:
+      - "10051:10051"
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=zabbix
+      - MYSQL_USER=zabbix
+      - MYSQL_PASSWORD=zabbix
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    links:
+      - mysql-server:mysql-server
+
+  zabbix-web-server:
+    image: zabbix/zabbix-web-nginx-mysql:ubuntu-3.4-latest
+    container_name: zabbix-web-server
+    ports:
+      - "8081:80"
+      - "8443:443"
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=zabbix
+      - MYSQL_USER=zabbix
+      - MYSQL_PASSWORD=zabbix
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    links:
+      - mysql-server:mysql-server
+      - zabbix-server:zabbix-server
+
+  zabbix-agent:
+    image: zabbix/zabbix-agent:ubuntu-3.4-latest
+    container_name: zabbix-agent
+    ports:
+      - "10050:10050"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    links:
+      - mysql-server:mysql-server
+      - zabbix-server:zabbix-server
+      - zabbix-web-server:zabbix-web-server
