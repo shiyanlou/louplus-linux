@@ -46,7 +46,7 @@ cp /etc/hosts /home/shiyanlou/hosts
         debug: msg="My host alias is {{ inventory_hostname }} {{ ansible_ssh_host }} {{ ansible_nodename }}"
 
       - name: modify hostname
-        shell: echo "{{ inventory_hostname }}" > /etc/hostname
+        shell: echo "{{ inventory_hostname }}" | sudo tee /etc/hostname
         become: yes
 
       - name: modify hosts
