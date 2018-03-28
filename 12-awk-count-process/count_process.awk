@@ -1,5 +1,6 @@
 #!/bin/awk -f
 
+BEGIN{ getline; }
 {
     num[$1]++
 }
