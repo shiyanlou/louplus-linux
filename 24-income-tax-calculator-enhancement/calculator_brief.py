@@ -21,7 +21,7 @@ def main():
             print('Parameter Error')
         else:
             for i in info:
-                if wage - 3500 <= i[0]:
+                if (1 - 0.165) * wage - 3500 <= i[0]:
                     print('%s:%.2f' % (uid, max(0, ((1 - 0.165) * wage - max(0, ((1 - 0.165) * wage - 3500)) * i[1] + i[2]))))
                     break
 
