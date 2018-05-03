@@ -52,7 +52,7 @@ def convert_ip_port(ip_port):
 
 
 def get_pid(inode):
-    for path in glob.glob('/proc/[1-9]*/fd/[1-9]*'):
+    for path in glob.glob('/proc/[0-9]*/fd/[0-9]*'):
         try:
             if str(inode) in os.readlink(path):
                 return path.split('/')[2]
@@ -67,16 +67,15 @@ def main(choose):
     content = get_content(choose)
 
     for info in content:
-        iterms = info.split(' ')
-        iterms_list = [x for x in iterms if x != '']
+        iterms = info.split()
         proto = choose
-        local_address = "%s:%s" % convert_ip_port(iterms_list[1])
-        status = STATUS[iterms_list[3]]
+        local_address = "%s:%s" % convert_ip_port(iterms[1])
+        status = STATUS[iterms[3]]
         if status == 'LISTEN':
             remote_address = '-'
         else:
-            remote_address = "%s:%s" % convert_ip_port(iterms_list[2])
-        pid = get_pid(iterms_list[9])
+            remote_address = "%s:%s" % convert_ip_port(iterms[2])
+        pid = get_pid(iterms[9])
         program_name = ''
         if pid:
             program_name = get_program_name(pid)
