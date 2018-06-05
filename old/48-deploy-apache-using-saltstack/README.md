@@ -1,6 +1,6 @@
 #### 安装 saltstack
 
-```
+```bash
 wget -O - https://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
 echo "deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest trusty main" | sudo tee /etc/apt/sources.list.d/saltstack.list
 apt-get update
@@ -9,71 +9,55 @@ apt-get install salt-master salt-minion -y
 
 #### 修改 hosts
 
-```
+```bash
 vim /etc/hosts
 ```
 
 输入一下内容
 
-```
+```bash
 127.0.0.1 localhost salt
 ```
 
-#### 修改 master 配置文件
-
-```
-vim /etc/salt/master
-```
-
-输入下面的内容:
-
-```
-file_roots:
-  base:
-    - /srv/salt
-  apache2:
-    - /srv/salt/apache2
-```
-
-
 #### 启动 saltstack
 
-```
+```bash
 service salt-master start
 service salt-minion start
 
+salt-key -L
 salt-key -A
 ```
 
 #### 创建目录
 
-```
-sudo mkdir -p /srv/salt/apache2
+```bash
+sudo mkdir -p /srv/salt
 ```
 
 #### 创建top 文件
 
-```
+```bash
 vim /srv/salt/top.sls
 ```
 
 输入下面的内容
 
-```
-apache2:
-	'*':
-		- apache2
+```yaml
+base:
+  '*':
+  - apache2
 ```
 
 #### 创建执行文件
 
-```
-vim /srv/salt/apache2/apache2.sls
+```bash
+vim /srv/salt/apache2.sls
 ```
 
 输入下面的内容
 
-```
+```yaml
 apache2-service:
     pkg.latest:
         - name: apache2
@@ -103,12 +87,10 @@ extract_project:
         - group: root
         - options: v
         - if_missing: /var/www/html/page
-
 ```
-
 
 #### 执行
 
-```
-salt '*' state.highstate
+```bash
+salt '*' state.apply
 ```

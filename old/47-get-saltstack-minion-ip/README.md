@@ -9,27 +9,27 @@ apt-get install salt-master salt-minion -y
 
 #### 修改 hosts
 
-```
+```bash
 vim /etc/hosts
 ```
 
 添加以下内容:
 
-```
+```text
 127.0.0.1 localhost salt
 ```
 
 #### 启动 saltstack
 
-```
+```bash
 service salt-master start
 service salt-minon start
+salt-key -L
 salt-key -A
 ```
 
-
 #### 脚本内容 /home/shiyanlou/get_ip.sh 内容
 
-```
+```bash
 salt '*' network.interface_ip eth0
 ```

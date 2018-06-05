@@ -1,23 +1,25 @@
 #### 创建新的 supervisord 配置文件
 
-```
+```bash
 cp /etc/supervisor/supervisord.conf /home/shiyanlou/supervisord1.conf
 ```
 
-将其中的 supervisor.sock 等等都改成 supervisord1.sock 还有 pid 等等
+替换以下内容：
+supervisor.sock supervisor1.sock
+supervisord.log supervisord1.log
+supervisord.pid supervisord1.pid
 
-修改 Include 为 /home/shiyanlou/apache2.conf
-
+include： /home/shiyanlou/apache2.conf
 
 #### 创建 Apache 的配置文件
 
-```
+```bash
 vim /home/shiyanlou/apache2.conf
 ```
 
 输入下面的内容
 
-```
+```ini
 [program:apache2]
 command=/usr/sbin/apache2ctl -D "FOREGROUND" -k start
 autostart=true
@@ -28,7 +30,7 @@ stopwaitsecs=10
 
 #### 启动 supervisord
 
-```
+```bash
 supervisord -c /home/shiyanlou/supervisord1.conf
 supervisorctl -c /home/shiyanlou/supervisord1.conf
 ```
