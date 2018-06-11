@@ -2,6 +2,7 @@
 
 ```
 mkdir /home/shiyanlou/test1
+mkdir /home/shiyanlou/test2
 echo "Hello,this is first" > /home/shiyanlou/test1/index.html
 echo "Hello,this is second" > /home/shiyanlou/test2/index.html
 ```
@@ -9,7 +10,7 @@ echo "Hello,this is second" > /home/shiyanlou/test2/index.html
 2. 修改目录访问权限
 
 ```
-vim /etc/apache2/apache2.conf
+sudo vim /etc/apache2/apache2.conf
 ```
 
 添加以下内容
@@ -25,13 +26,13 @@ vim /etc/apache2/apache2.conf
 3. 增加监听端口
 
 ```
-echo "Listen 8080"   >> /etc/apach2/ports.conf
+echo "Listen 8080" | sudo tee -a /etc/apache2/ports.conf
 ```
 
 4. 创建虚拟机配置文件
 
 ```
-vim /etc/apache2/sites-available/test1.conf
+sudo vim /etc/apache2/sites-available/test1.conf
 ```
 
 添加下面的内容
@@ -46,14 +47,14 @@ vim /etc/apache2/sites-available/test1.conf
 配置 ops2.shiyanlou.com
 
 ```
-vim /etc/apache2/sites-available/test2.conf
+sudo vim /etc/apache2/sites-available/test2.conf
 ```
 
 添加下面的内容
 
 ```
 <VirtualHost *:8080>
-        ServerName  ops2.shiyanou.com
+        ServerName  ops2.shiyalou.com
         DocumentRoot /home/shiyanlou/test2
 </VirtualHost>
 ```
@@ -61,13 +62,14 @@ vim /etc/apache2/sites-available/test2.conf
 5. 修改 hosts 文件
 
 ```
-echo "127.0.0.1    localhost ops1.shiyanlou.com ops2.shiyanlou.com" >> /etc/hosts
+echo "127.0.0.1    localhost ops1.shiyanlou.com ops2.shiyanlou.com" | sudo tee -a /etc/hosts
 ```
 
 6. 加载配置文件
 
 ```
-a2ensite /etc/apache2/sites-avaliable/test1.conf
-a2ensite /etc/apache2/sites-avaliable/test2.conf
-serivec apache2 reload
+sudo a2ensite test1.conf
+sudo a2ensite test2.conf
+sudo service apache2 start
+sudo service apache2 reload
 ```

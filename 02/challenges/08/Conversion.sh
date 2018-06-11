@@ -28,4 +28,7 @@ function Convert() {
 	fi
 }
 
-export -f Convert
+if [ "$0" = "$BASH_SOURCE" ]
+then
+	Convert $1
+fi
