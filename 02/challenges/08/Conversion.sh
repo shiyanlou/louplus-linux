@@ -19,7 +19,7 @@ function Convert() {
 	local mb=$((1024 * 1024))
 	local kb=1024
 
-	if (($1 > $gb)); then
+	if (($1 >= $gb)); then
 		echo "$(($1 / $gb)) GB" 
 	elif (($1 >= $mb)); then
 		echo "$(($1 / $mb)) MB"

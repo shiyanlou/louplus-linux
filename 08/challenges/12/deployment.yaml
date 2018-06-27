@@ -1,0 +1,23 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: shiyanlou
+  name: shiyanlou
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shiyanlou
+  template:
+    metadata:
+      labels:
+        app: shiyanlou
+    spec:
+      containers:
+      - name: shiyanlou
+        image: shiyanlou
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+          name: http

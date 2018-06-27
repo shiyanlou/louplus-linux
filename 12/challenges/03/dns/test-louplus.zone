@@ -1,0 +1,15 @@
+@  IN  SOA  dns.test-louplus.com. admin.test-louplus.com. (
+       2017122704
+       21600
+       3600
+       604800
+       86400 )
+
+@    IN    NS    dns
+
+@    IN    MX    10    mail.test-louplus.com.
+
+mail IN    A     192.168.42.100
+dev  IN    A     192.168.42.101
+nfs  IN    A     192.168.42.102
+dns  IN    A     192.168.42.103

@@ -1,0 +1,13 @@
+@  IN  SOA  dns.test-louplus.com. admin.test-louplus.com. (
+       2017122704
+       21600
+       3600
+       604800
+       86400 )
+    
+    IN    NS    dns.test-louplus.com.
+
+100    IN    PTR    mail.test-louplus.com.
+101    IN    PTR    dev.test-louplus.com.
+102    IN    PTR    nfs.test-louplus.com.
+103    IN    PTR    dns.test-louplus.com.
