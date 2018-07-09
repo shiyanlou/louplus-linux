@@ -4,7 +4,7 @@ CREATE USER shiyanlou@localhost IDENTIFIED BY "Xd4a8lKjeL9Z";
 
 grant select, update on `shiyanlou-staging`.* to shiyanlou@localhost;
 
-use shiyanlou-staging；
+use shiyanlou-staging;
 
 create table shiyanlou_user
 (
