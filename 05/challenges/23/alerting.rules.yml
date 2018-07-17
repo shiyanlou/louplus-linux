@@ -3,4 +3,4 @@ groups:
   rules:
   - alert: NginxDown
     expr: rate(nginx_http_requests_total{status="404"}[10s]) > 0.01
-    for: 10s
+    for: 4s
