@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    stages {
+        stage('Download') {
+            steps {
+                sh 'wget http://labfile.oss.aliyuncs.com/courses/980/09/assets/flask-demo.tar.gz'
+                sh 'tar zxvf flask-demo.tar.gz'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'pip3 install flask'
+            }
+        }
+        stage('Run') {
+            steps {
+                withEnv(['JENKINS_NODE_COOKIE=dontKillMe']) {
+                    sh 'cd flask-demo && LC_ALL=C.UTF-8 LANG=C.UTF-8 FLASK_APP=app.py nohup flask run >/dev/null 2>&1 &'
+                }
+            }
+        }
+    }
+}
