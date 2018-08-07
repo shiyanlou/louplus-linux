@@ -13,5 +13,5 @@ docker run -d --name shiyanlou --network shiyanlou shiyanlou
 
 docker run -d --name nginx --network shiyanlou -v /home/shiyanlou/challenge/shiyanlou.conf:/etc/nginx/conf.d/shiyanlou.conf -p 8080:80 registry.cn-hangzhou.aliyuncs.com/louplus-linux/nginx:1.9.1
 
-# 执行下面命令之前，请先添加 Hosts “127.0.0.1   shiyanlou”
-curl http://shiyanlou:8080/
+# 执行下面命令之前，请先添加 Hosts “127.0.0.1   shiyanlou.com”
+curl http://shiyanlou.com:8080/
