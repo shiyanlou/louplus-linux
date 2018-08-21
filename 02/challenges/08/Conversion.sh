@@ -23,8 +23,10 @@ function Convert() {
 		echo "$(($1 / $gb)) GB" 
 	elif (($1 >= $mb)); then
 		echo "$(($1 / $mb)) MB"
-	else
+	elif (($1 >= $kb)); then
 		echo "$(($1 / $kb)) KB"
+	else
+		echo "$1 B"
 	fi
 }
 
