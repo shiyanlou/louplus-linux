@@ -39,7 +39,7 @@ sudo vim /etc/apache2/sites-available/test1.conf
 
 ```
 <VirtualHost *:8080>
-        ServerName  ops1.shiyanou.com
+        ServerName  ops1.shiyalou.com
         DocumentRoot /home/shiyanlou/test1
 </VirtualHost>
 ```
