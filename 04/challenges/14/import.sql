@@ -4,7 +4,7 @@ CREATE USER shiyanlou@localhost IDENTIFIED BY "Xd4a8lKjeL9Z";
 
 grant select, update on `shiyanlou-staging`.* to shiyanlou@localhost;
 
-use shiyanlou-staging;
+use `shiyanlou-staging`;
 
 create table shiyanlou_user
 (
@@ -30,13 +30,10 @@ create table shiyanlou_usercourse
 
 set foreign_key_checks = 0;
 
-load data infile '/home/shiyanlou/loudatabase/shiyanlou_user.csv' into table shiyanlou_user character
-set utf8 fields terminated by ',' enclosed by '"' lines terminated by '\n';
+load data infile '/home/shiyanlou/loudatabase/shiyanlou_user.csv' into table shiyanlou_user character set utf8 fields terminated by ',' enclosed by '"' lines terminated by '\n';
 
-load data infile '/home/shiyanlou/loudatabase/shiyanlou_course.csv' into table shiyanlou_course character
-set utf8 fields terminated by ',' enclosed by '"' lines terminated by '\n';
+load data infile '/home/shiyanlou/loudatabase/shiyanlou_course.csv' into table shiyanlou_course character set utf8 fields terminated by ',' enclosed by '"' lines terminated by '\n';
 
-load data infile '/home/shiyanlou/loudatabase/shiyanlou_usercourse.csv' into table shiyanlou_usercourse character
-set utf8 fields terminated by ',' enclosed by '"' lines terminated by '\n' (user_id,course_id,study_time);
+load data infile '/home/shiyanlou/loudatabase/shiyanlou_usercourse.csv' into table shiyanlou_usercourse character set utf8 fields terminated by ',' enclosed by '"' lines terminated by '\n' (user_id,course_id,study_time);
 
 set foreign_key_checks = 1;
