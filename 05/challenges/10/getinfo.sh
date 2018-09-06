@@ -14,7 +14,7 @@ memory(){
 
 load(){
     total_core=$(grep -c 'model name' /proc/cpuinfo)
-    load_one=$(uptime | awk '{print $10}' | tr -d ',')
+    load_one=$(uptime | awk '{print $8}' | tr -d ',')
     preload=$(awk 'BEGIN{printf ("%.2f","'${load_one}'"/"'${total_core}'" )}')
     judgment Loadaverage 0.7 $preload
 }
