@@ -50,6 +50,7 @@ class ArgError(Exception):
 class Args:
     """命令行参数解析类
     """
+
     def __init__(self, args):
         """
         Args:
@@ -77,13 +78,15 @@ class Args:
 class SheBaoConfig:
     """社保配置文件类
     """
+
     def __init__(self, file):
         """
         Args:
             file (str): 社保配置文件
         """
 
-        self.jishu_low, self.jishu_high, self.total_rate = self.__parse_config(file)
+        self.jishu_low, self.jishu_high, self.total_rate = self.__parse_config(
+            file)
 
     def __parse_config(self, file):
         """解析社保参数配置文件
@@ -114,6 +117,7 @@ class EmployeeData(Process):
 
     通过继承 Process 类，并实现 run 方法使其可以像一个进程一样启动执行。
     """
+
     def __init__(self, file, output_queue):
         """
         Args:

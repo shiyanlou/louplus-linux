@@ -20,6 +20,7 @@ class ArgError(Exception):
 class Args:
     """命令行参数解析类
     """
+
     def __init__(self, args):
         """
         Args:
@@ -47,13 +48,15 @@ class Args:
 class SheBaoConfig:
     """社保配置文件类
     """
+
     def __init__(self, file):
         """
         Args:
             file (str): 社保配置文件
         """
 
-        self.jishu_low, self.jishu_high, self.total_rate = self.__parse_config(file)
+        self.jishu_low, self.jishu_high, self.total_rate = self.__parse_config(
+            file)
 
     def __parse_config(self, file):
         """解析社保参数配置文件
@@ -82,6 +85,7 @@ class SheBaoConfig:
 class EmployeeData:
     """员工数据实现类
     """
+
     def __init__(self, file):
         """
         Args:
@@ -178,6 +182,7 @@ class Calculator:
 class Exporter:
     """导出类实现
     """
+
     def __init__(self, file, append=False):
         """
         Args:
@@ -199,6 +204,7 @@ class Exporter:
         """
         line = ','.join(item) + '\n'
         self.__file.write(line)
+
 
 class Executor:
     """执行器实现

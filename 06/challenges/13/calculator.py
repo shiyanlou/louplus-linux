@@ -43,7 +43,8 @@ class Args(object):
             exit()
         options = dict(opts)
         if len(options) == 1 and ('-h' in options or '--help' in options):
-            print('Usage: calculator.py -C cityname -c configfile -d userdata -o resultdata')
+            print(
+                'Usage: calculator.py -C cityname -c configfile -d userdata -o resultdata')
             exit()
         return options
 
@@ -166,7 +167,8 @@ class IncomeTaxCalculator(Process):
             except queue.Empty:
                 return
             data = [employee_id, income]
-            social_insurance_money = '{:.2f}'.format(self.calc_social_insurance_money(income))
+            social_insurance_money = '{:.2f}'.format(
+                self.calc_social_insurance_money(income))
             tax, remain = self.calc_income_tax_and_remain(income)
             data.extend([social_insurance_money, tax, remain])
             data.append(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))

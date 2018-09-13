@@ -157,7 +157,8 @@ class IncomeTaxCalculator(Process):
             except queue.Empty:
                 return
             data = [employee_id, income]
-            social_insurance_money = '{:.2f}'.format(self.calc_social_insurance_money(income))
+            social_insurance_money = '{:.2f}'.format(
+                self.calc_social_insurance_money(income))
             tax, remain = self.calc_income_tax_and_remain(income)
             data += [social_insurance_money, tax, remain]
             yield data
