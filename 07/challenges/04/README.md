@@ -21,8 +21,6 @@ cat ~/.ssh/id_rsa.pub > ~/.ssh/authorized_keys
 vim /etc/ansible/hosts
 ```
 
-输入一下内容
-
 ```ini
 [product]
 localhost ansible_ssh_user=shiyanlou ansible_ssh_private_key_file=/home/shiyanlou/.ssh/id_rsa
