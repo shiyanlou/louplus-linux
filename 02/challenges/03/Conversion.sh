@@ -1,15 +1,16 @@
 #!/bin/bash
 
+# 检查参数是否为数字
 function checkNumber() {
-	re='^[0-9]+([.][0-9]+)?$'
+	re='^[0-9]+(\.[0-9]+)?$'
 	if ! [[ $1 =~ $re ]]; then
         return 1
 	fi
     return 0
 }
 
+# 转换数字为最合适的显示单位
 function Convert() {
-
     if ! checkNumber $1; then
         echo "expect number but receive $1"
         return 1
@@ -30,4 +31,5 @@ function Convert() {
 	fi
 }
 
+# 调用 Convert 函数，直接传递所有脚本参数给函数
 Convert $*
