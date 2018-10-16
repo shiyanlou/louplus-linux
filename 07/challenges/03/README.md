@@ -1,4 +1,6 @@
-#### 安装 ansible
+# 挑战：修复所有机器名
+
+## 安装 Ansible
 
 ```bash
 sudo apt-get update
@@ -8,17 +10,17 @@ sudo apt-get update
 sudo apt-get install ansible
 ```
 
-#### 创建密钥
+## 创建密钥
 
 ```bash
 ssh-keygen
 cat ~/.ssh/id_rsa.pub > ~/.ssh/authorized_keys
 ```
 
-#### 创建 inventory
+## 添加 Inventory
 
 ```bash
-vim /etc/ansible/hosts
+sudo vi /etc/ansible/hosts
 ```
 
 ```ini
@@ -26,16 +28,32 @@ vim /etc/ansible/hosts
 docker1.shiyanlou.com ansible_host=127.0.0.1 ansible_ssh_user=shiyanlou ansible_ssh_private_key_file=/home/shiyanlou/.ssh/id_rsa
 ```
 
-#### 复制 hosts 文件
+## 关闭 Host Key 检查
+
+默认第一次连接远程服务器的时候需要确认远程机器指纹，验证挑战结果时没法人工确认，需要关闭掉这个检查。
+
+```bash
+sudo vi /etc/ansible/ansible.cfg
+```
+
+```ini
+[defaults]
+host_key_checking = False
+```
+
+## 复制 Hosts 文件
 
 ```bash
 cp /etc/hosts /home/shiyanlou/hosts
 ```
 
-#### palybook modify_hostname.yml 内容
+## 编写 Playbook
+
+```bash
+sudo vi /home/shiyanlou/modify_hostname.yml
+```
 
 ```yaml
----
 - hosts:
     - product
   tasks:
@@ -49,10 +67,9 @@ cp /etc/hosts /home/shiyanlou/hosts
     - name: modify hosts
       shell: sed -i "s/{{ ansible_nodename }}/{{ inventory_hostname }}/g" /home/shiyanlou/hosts
       become: yes
-...
 ```
 
-#### 安装
+## 执行 Playbook
 
 ```bash
 ansible-playbook /home/shiyanlou/modify_hostname.yml

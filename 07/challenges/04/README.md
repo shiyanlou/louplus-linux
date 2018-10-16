@@ -1,33 +1,39 @@
-#### 安装 ansible
+# 挑战：获取所有 Minion 的 IP 地址
+
+## 安装 Saltstack
 
 ```bash
+wget -O - https://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+echo "deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest trusty main" | sudo tee /etc/apt/sources.list.d/saltstack.list
 sudo apt-get update
-sudo apt-get install software-properties-common
-sudo python3.4 /usr/bin/add-apt-repository ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install ansible
+sudo apt-get install salt-master salt-minion
 ```
 
-#### 创建密钥
+## 在 Minion Hosts 里添加 Master 机器名解析
 
 ```bash
-ssh-keygen
-cat ~/.ssh/id_rsa.pub > ~/.ssh/authorized_keys
+vi /etc/hosts
 ```
 
-#### 创建 inventory
+```text
+127.0.0.1 localhost salt
+```
+
+## 启动 Saltstack
 
 ```bash
-vim /etc/ansible/hosts
+sudo service salt-master start
+sudo service salt-minion start
+sudo salt-key -L
+sudo salt-key -A
 ```
 
-```ini
-[product]
-localhost ansible_ssh_user=shiyanlou ansible_ssh_private_key_file=/home/shiyanlou/.ssh/id_rsa
-```
-
-#### get_hostname.sh 内容
+## 编写 Salt 命令
 
 ```bash
-ansible product -m setup -a "filter=ansible_hostname"
+vi /home/shiyanlou/get_ip.sh
+```
+
+```bash
+sudo salt '*' network.interface_ip eth0
 ```
