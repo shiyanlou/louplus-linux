@@ -1,75 +1,24 @@
-1. 创建项目目录
+# 挑战：让实验楼网站恢复访问
 
-```
-mkdir /home/shiyanlou/test1
-mkdir /home/shiyanlou/test2
-echo "Hello,this is first" > /home/shiyanlou/test1/index.html
-echo "Hello,this is second" > /home/shiyanlou/test2/index.html
-```
+## 修复虚拟机配置错误
 
-2. 修改目录访问权限
-
-```
-sudo vim /etc/apache2/apache2.conf
+```bash
+vi /etc/nginx/sites-enable/default
 ```
 
-添加以下内容
+```nginx
+server {
+    server_name localhost;
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
 
-```
-<Directory /home/shiyanlou>
-        Options Indexes FollowSymLinks
-        AllowOverride None
-        Require all granted
-</Directory>
-```
+    # 修正站点根目录
+    root /home/shiyanlou/page;
+    index index.html index.htm shiyanlou.htm;
 
-3. 增加监听端口
-
-```
-echo "Listen 8080" | sudo tee -a /etc/apache2/ports.conf
-```
-
-4. 创建虚拟机配置文件
-
-```
-sudo vim /etc/apache2/sites-available/test1.conf
-```
-
-添加下面的内容
-
-```
-<VirtualHost *:8080>
-        ServerName  ops1.shiyalou.com
-        DocumentRoot /home/shiyanlou/test1
-</VirtualHost>
-```
-
-配置 ops2.shiyanlou.com
-
-```
-sudo vim /etc/apache2/sites-available/test2.conf
-```
-
-添加下面的内容
-
-```
-<VirtualHost *:8080>
-        ServerName  ops2.shiyalou.com
-        DocumentRoot /home/shiyanlou/test2
-</VirtualHost>
-```
-
-5. 修改 hosts 文件
-
-```
-echo "127.0.0.1    localhost ops1.shiyanlou.com ops2.shiyanlou.com" | sudo tee -a /etc/hosts
-```
-
-6. 加载配置文件
-
-```
-sudo a2ensite test1.conf
-sudo a2ensite test2.conf
-sudo service apache2 start
-sudo service apache2 reload
+    location / {
+        # 修正语法错误，行尾需要有分号
+        try_files $uri $uri/ =404;
+    }
+}
 ```

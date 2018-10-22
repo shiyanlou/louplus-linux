@@ -1,0 +1,14 @@
+global:
+  # 默认抓取间隔为 5s
+  scrape_interval: 5s
+
+scrape_configs:
+  # 抓取 prometheus 指标
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # 抓取 nginx 指标
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['localhost:9145']

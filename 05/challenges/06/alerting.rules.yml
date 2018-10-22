@@ -1,0 +1,8 @@
+groups:
+- name: nginx
+  rules:
+  # 如果最近 10s 404 状态的每秒请求数大于 0.01，并且这种情况持续时间超过 4s 就触发报警。
+  # 设为 4s 是为了尽快触发告警，以便通过挑战。
+  - alert: NotFound
+    expr: rate(nginx_http_requests_total{status="404"}[10s]) > 0.01
+    for: 4s

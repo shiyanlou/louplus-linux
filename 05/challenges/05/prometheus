@@ -1,0 +1,14 @@
+server {
+  listen 9145;
+  allow 127.0.0.1;
+  deny all;
+  # 创建一个 Endpoint 来输出当前已采集到的指标数据
+  location /metrics {
+    content_by_lua '
+      metric_connections:set(ngx.var.connections_reading, {"reading"})
+      metric_connections:set(ngx.var.connections_waiting, {"waiting"})
+      metric_connections:set(ngx.var.connections_writing, {"writing"})
+      prometheus:collect()
+    ';
+  }
+}

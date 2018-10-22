@@ -1,0 +1,22 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['localhost:9145']
+
+rule_files:
+  # 配置告警规则文件
+  - alerting.rules.yml
+
+alerting:
+  alertmanagers:
+    # 配置告警管理器地址
+    - static_configs:
+        - targets: ['localhost:9093']

@@ -1,0 +1,10 @@
+# 日志来源文件路径
+filebeat.prospectors:
+  - type: log
+    paths:
+      - /var/log/nginx/access.log
+
+# 日志输出到 redis
+output.redis:
+  hosts: ["10.119.13.23"]
+  port: 6379

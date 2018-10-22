@@ -1,0 +1,18 @@
+global:
+
+route:
+  group_wait: 1s
+  group_interval: 1s
+  receiver: shiyanlou
+  routes:
+  # 如果是 nginx job 触发的告警，则通知 shiyanlou
+  - match:
+      job: nginx
+    group_by: ['job']
+    receiver: shiyanlou
+
+receivers:
+- name: shiyanlou
+  webhook_configs:
+  # 告警接收方式为接口
+  - url: http://localhost:8000/

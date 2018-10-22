@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
 import csv
-import configparser
-from getopt import getopt, GetoptError
-from datetime import datetime
 from collections import namedtuple
 import queue
 from multiprocessing import Queue, Process
@@ -35,51 +32,22 @@ class Args(object):
     """
 
     def __init__(self):
-        # 解析命令行选项
-        self.options = self._options()
-
-    def _options(self):
-        """
-        内部函数，用来解析命令行选项，返回保存了所有选项及其取值的字典
-        """
-
-        try:
-            # 解析命令行选项和参数，本程序只支持选项，因此忽略返回结果里的参数列表
-            opts, _ = getopt(sys.argv[1:], 'hC:c:d:o:', ['help'])
-        except GetoptError:
-            print('Parameter Error')
-            exit()
-        options = dict(opts)
-
-        # 处理 -h 或 --help 选项
-        if len(options) == 1 and ('-h' in options or '--help' in options):
-            print(
-                'Usage: calculator.py -C cityname -c configfile -d userdata -o resultdata')
-            exit()
-
-        return options
+        # 保存命令行参数列表
+        self.args = sys.argv[1:]
 
     def _value_after_option(self, option):
         """
         内部函数，用来获取跟在选项后面的值
         """
 
-        value = self.options.get(option)
-
-        # 城市参数可选，其它参数必须提供
-        if value is None and option != '-C':
+        try:
+            # 获得选项位置
+            index = self.args.index(option)
+            # 下一位置即为选项值
+            return self.args[index + 1]
+        except (ValueError, IndexError):
             print('Parameter Error')
             exit()
-
-        return value
-
-    @property
-    def city(self):
-        """
-        城市
-        """
-
-        return self._value_after_option('-C')
 
     @property
     def config_path(self):
@@ -121,16 +89,22 @@ class Config(object):
 
     def _read_config(self):
         """
-        内部函数，用来读取配置文件中指定城市的配置
+        内部函数，用来读取配置文件中的配置项
         """
 
-        config = configparser.ConfigParser()
-        config.read(args.config_path)
-        # 如果指定了城市并且该城市在配置文件中，返回该城市的配置，否则返回默认的配置
-        if args.city and args.city.upper() in config.sections():
-            return config[args.city.upper()]
-        else:
-            return config['DEFAULT']
+        config = {}
+        with open(args.config_path) as f:
+            # 依次读取配置文件里的每一行并解析得到配置项名称和值
+            for line in f.readlines():
+                key, value = line.strip().split('=')
+                try:
+                    # 去掉前后可能出现的空格
+                    config[key.strip()] = float(value.strip())
+                except ValueError:
+                    print('Parameter Error')
+                    exit()
+
+        return config
 
     def _get_config(self, key):
         """
@@ -138,9 +112,9 @@ class Config(object):
         """
 
         try:
-            return float(self.config[key])
-        except (ValueError, KeyError):
-            print('Parameter Error')
+            return self.config[key]
+        except KeyError:
+            print('Config Error')
             exit()
 
     @property
@@ -281,8 +255,7 @@ class IncomeTaxCalculator(Process):
         # 计算税后工资
         tax, remain = self.calc_income_tax_and_remain(income)
 
-        return [employee_id, income, social_insurance_money, tax, remain,
-                datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
+        return [employee_id, income, social_insurance_money, tax, remain]
 
     def run(self):
         """
