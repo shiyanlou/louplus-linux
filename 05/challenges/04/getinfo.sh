@@ -34,8 +34,13 @@ load() {
     total_load=$(uptime | awk -F ',' '{print $4}' | awk -F ':' '{print $2}')
     # 使用 AWK 来进行浮点运算，同时把 load 值放大 100 倍来转化成整数，使得后续运算不需要考虑浮点数
     per_load=$(awk -v total_core="$total_core" -v total_load="$total_load" 'BEGIN {print int(total_load * 100 / total_core)}')
-    # 阈值同样需要放大 100 倍
-    judgment Loadaverage 70 $per_load
+    f_per_load=$(awk -v per_load="$per_load" 'BEGIN {printf "%.2f",per_load/100}')
+    if (( $per_load < 70 ))
+    then
+        printf '%s %s\n' "Loadaverage" "$f_per_load OK"
+    else
+        printf '%s %s\n' "$per_load" "$f_per_load Alert"
+    fi
 }
 
 # 调用各个使用情况函数
